@@ -1,0 +1,51 @@
+.principal{
+    background-color: darkgreen;
+    text-size-adjust: 30px;
+    color: aliceblue;
+    height: 300px;
+    display: flex;
+justify-content: center;
+}
+.principal1{
+    
+    height: 300px;
+    display: flex;
+justify-content: center;
+}
+.bomba1 {
+    border: 300px;
+    background-color: aquamarine;
+    width: 150px;
+    height: 350px;
+    
+}
+.bomba2 {
+    border: 10px;
+    background-color: aquamarine;
+    width: 150px;
+    height: 350px;
+}
+.bomba3 {
+    border: 300px;
+    background-color: aquamarine;
+    width: 150px;
+    height: 350px;
+}
+.facebook {
+    border: 170px;
+    background-color: aquamarine;
+    width: 100px;
+    height: 300px;
+}
+.insta {
+    border: 170px;
+    background-color: aquamarine;
+    width: 100px;
+    height: 300px;
+}
+.youtube {
+    border: 170px;
+    background-color: aquamarine;
+    width: 100px;
+    height: 300px;
+}
