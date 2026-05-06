@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Hidráulica Pro Brasil</title>
+    <link rel="stylesheet" href="bomba.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/build/email.min.js"></script>
+    <style>
+        .banner-contato {
+            background-color: darkgreen;
+            color: aliceblue;
+            text-align: center;
+            padding: 30px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .banner-contato h2 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .contato-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: darkgreen;
+            box-shadow: 0 0 5px rgba(0, 100, 0, 0.3);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-submit, .btn-export, .btn-limpar {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-submit {
+            background-color: #90EE90;
+            color: #333;
+        }
+
+        .btn-submit:hover {
+            background-color: #7CCD7C;
+            transform: scale(1.05);
+        }
+
+        .btn-export {
+            background-color: darkgreen;
+            color: white;
+        }
+
+        .btn-export:hover {
+            background-color: #006400;
+            transform: scale(1.05);
+        }
+
+        .btn-limpar {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .btn-limpar:hover {
+            background-color: #ee5a52;
+            transform: scale(1.05);
+        }
+
+        .tabela-dados {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            overflow-x: auto;
+            display: none;
+        }
+
+        .tabela-dados h3 {
+            color: darkgreen;
+            margin-bottom: 15px;
+        }
+
+        .tabela-dados table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tabela-dados th {
+            background-color: #90EE90;
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid darkgreen;
+        }
+
+        .tabela-dados td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tabela-dados tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .tabela-dados tr:hover {
+            background-color: #e8f5e9;
+        }
+
+        .sucesso {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .sucesso.mostrar {
+            display: block;
+        }
+
+        .btn-deletar {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn-deletar:hover {
+            background-color: #ee5a52;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegação -->
+    <nav class="navbar">
+        <div class="nav-buttons">
+            <a href="bomba.html" class="nav-button" id="btn-home">Home</a>
+            <a href="sobre.html" class="nav-button" id="btn-sobre">Sobre</a>
+            <a href="contato.html" class="nav-button" id="btn-contato">Contato</a>
+        </div>
+    </nav>
+
+    <!-- Faixa Contato -->
+    <div class="banner-contato">
+        <h2>Entre em Contato</h2>
+    </div>
+
+    <!-- Seção Contato -->
+    <div class="contato-container">
+        <h3 style="text-align: center; color: darkgreen;">Envie-nos uma Mensagem</h3>
+        
+        <div class="sucesso" id="msg-sucesso">
+            ✓ Registro salvo com sucesso! Os dados foram adicionados ao banco de dados.
+        </div>
+
+        <form id="form-contato">
+            <div class="form-group">
+                <label for="nome">Nome Completo:</label>
+                <input type="text" id="nome" name="nome" required placeholder="Seu nome completo">
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required placeholder="seu.email@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="tel" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX">
+            </div>
+
+            <div class="form-group">
+                <label for="empresa">Empresa:</label>
+                <input type="text" id="empresa" name="empresa" placeholder="Nome da sua empresa">
+            </div>
+
+            <div class="form-group">
+                <label for="assunto">Assunto:</label>
+                <select id="assunto" name="assunto" required>
+                    <option value="">Selecione um assunto...</option>
+                    <option value="Orçamento">Solicitar Orçamento</option>
+                    <option value="Suporte Técnico">Suporte Técnico</option>
+                    <option value="Informações">Informações sobre Produtos</option>
+                    <option value="Parceria">Proposta de Parceria</option>
+                    <option value="Reclamação">Reclamação ou Sugestão</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mensagem">Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" required placeholder="Digite sua mensagem aqui..."></textarea>
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" class="btn-submit">Enviar Mensagem</button>
+                <button type="reset" class="btn-limpar">Limpar Formulário</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabela de Dados -->
+    <div class="contato-container tabela-dados">
+        <h3>Registros Capturados</h3>
+        <div style="margin-bottom: 15px;">
+            <button class="btn-export" onclick="exportarParaXLS()">📥 Exportar para XLS</button>
+        </div>
+        <table id="tabela-registros">
+            <thead>
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Empresa</th>
+                    <th>Assunto</th>
+                    <th>Mensagem</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="corpo-tabela">
+            </tbody>
+        </table>
+        <p id="msg-vazia" style="text-align: center; color: #999; margin-top: 20px;">Nenhum registro ainda.</p>
+    </div>
+
+    <!-- Siga nossas Redes Sociais -->
+    <div class="redes-sociais-container">
+        <h2>Siga nossas redes sociais</h2>
+        <div class="redes-sociais">
+            <div class="rede facebook">
+                <a href="https://www.facebook.com/search/posts/?q=water%20pump%20destruction%20viral" target="_blank">
+                    <img src="Facebook_logo_(square).png" alt="Facebook" width="60px">
+                    <p>Facebook</p>
+                </a>
+            </div>
+            <div class="rede insta">
+                <a href="https://www.instagram.com/explore/tags/waterpumpdestruction/" target="_blank">
+                    <img src="Instagram_icon.png" alt="Instagram" width="60px">
+                    <p>Instagram</p>
+                </a>
+            </div>
+            <div class="rede youtube">
+                <a href="https://www.youtube.com/results?search_query=crazy+water+pump+destruction+viral" target="_blank">
+                    <img src="Youtube_logo.png" alt="YouTube" width="60px">
+                    <p>YouTube</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-black">
+        2026 Hidráulica Pro Brasil - Todos os direitos reservados. | Suporte 24/7
+    </footer>
+
+    <script src="bomba.js"></script>
+    <script>
+        // Inicializar EmailJS
+        emailjs.init('WZz4rMvMT1TFmRLKg');
+
+        // Dados de exemplo para o banco de dados
+        const dadosExemplo = [
+            {
+                dataHora: '05/05/2026, 10:30:45',
+                nome: 'João Silva Santos',
+                email: 'joao.silva@example.com',
+                telefone: '(11) 98765-4321',
+                empresa: 'Construtora Silva LTDA',
+                assunto: 'Orçamento',
+                mensagem: 'Solicito orçamento para sistema de bombeamento de água para edifício de 20 andares.'
+            },
+            {
+                dataHora: '04/05/2026, 14:15:20',
+                nome: 'Maria Oliveira Costa',
+                email: 'maria.costa@example.com',
+                telefone: '(21) 99876-5432',
+                empresa: 'Agrícola Costa Irmãos',
+                assunto: 'Suporte Técnico',
+                mensagem: 'Bomba modelo BP-300 apresentando pressão baixa. Necessário suporte técnico urgente.'
+            },
+            {
+                dataHora: '03/05/2026, 09:45:00',
+                nome: 'Carlos Mendes Ribeiro',
+                email: 'carlos.mendes@example.com',
+                telefone: '(31) 97654-3210',
+                empresa: 'Indústria de Mineração Brasil',
+                assunto: 'Informações',
+                mensagem: 'Gostaria de conhecer os novos modelos de bombas submersíveis de alta performance.'
+            },
+            {
+                dataHora: '02/05/2026, 16:20:30',
+                nome: 'Ana Paula Ferreira',
+                email: 'ana.ferreira@example.com',
+                telefone: '(85) 98765-0123',
+                empresa: 'Prefeitura Municipal de Fortaleza',
+                assunto: 'Parceria',
+                mensagem: 'Interessado em estabelecer parceria para fornecimento de equipamentos para obras públicas.'
+            },
+            {
+                dataHora: '01/05/2026, 11:05:15',
+                nome: 'Roberto Pereira Neves',
+                email: 'roberto.neves@example.com',
+                telefone: '(47) 99876-1234',
+                empresa: 'Empresa de Engenharia Ativa',
+                assunto: 'Outro',
+                mensagem: 'Desejo fazer uma visita técnica às instalações da Hidráulica Pro Brasil para conhecer os processos.'
+            },
+            {
+                dataHora: '30/04/2026, 13:50:45',
+                nome: 'Fernanda Gomes Silva',
+                email: 'fernanda.gomes@example.com',
+                telefone: '(62) 97654-5678',
+                empresa: 'Hotel Resort Goiás',
+                assunto: 'Orçamento',
+                mensagem: 'Necessitamos de bombas para sistema de abastecimento de água em resort de luxo com 150 apartamentos.'
+            },
+            {
+                dataHora: '29/04/2026, 15:30:20',
+                nome: 'Lucas Martins Santos',
+                email: 'lucas.martins@example.com',
+                telefone: '(48) 98765-6789',
+                empresa: 'Fábrica de Têxteis Sudeste',
+                assunto: 'Reclamação',
+                mensagem: 'Produto recebido com defeito. Solicito reposição ou reembolso conforme garantia.'
+            },
+            {
+                dataHora: '28/04/2026, 10:12:05',
+                nome: 'Patricia Alves Rocha',
+                email: 'patricia.rocha@example.com',
+                telefone: '(75) 99876-7890',
+                empresa: 'Refinaria de Petróleo Bahia',
+                assunto: 'Suporte Técnico',
+                mensagem: 'Manutenção preventiva das bombas modelo BP-500. Agendamento para próxima semana.'
+            },
+            {
+                dataHora: '27/04/2026, 12:35:50',
+                nome: 'Thiago Cabral Duarte',
+                email: 'thiago.duarte@example.com',
+                telefone: '(71) 97654-8901',
+                empresa: 'Distribuição de Água SABESP',
+                assunto: 'Informações',
+                mensagem: 'Informações sobre modelos de bombas centrífugas para sistema público de abastecimento.'
+            },
+            {
+                dataHora: '26/04/2026, 08:22:10',
+                nome: 'Juliana Costa Mendes',
+                email: 'juliana.mendes@example.com',
+                telefone: '(83) 98765-9012',
+                empresa: 'Estação de Tratamento de Água',
+                assunto: 'Parceria',
+                mensagem: 'Proposta de participação em licitação pública para fornecimento de equipamentos.'
+            }
+        ];
+
+        // Função para inicializar dados
+        function inicializarDados() {
+            const dadosAtual = localStorage.getItem('contatos');
+            if (!dadosAtual) {
+                localStorage.setItem('contatos', JSON.stringify(dadosExemplo));
+            }
+        }
+
+        // Função para exportar para XLS
+        function exportarParaXLS() {
+            const dados = JSON.parse(localStorage.getItem('contatos')) || [];
+            
+            if (dados.length === 0) {
+                console.log('Nenhum registro para exportar!');
+                return null;
+            }
+
+            const worksheet = XLSX.utils.json_to_sheet(dados);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Contatos');
+
+            worksheet['!cols'] = [
+                { wch: 18 },
+                { wch: 25 },
+                { wch: 30 },
+                { wch: 15 },
+                { wch: 20 },
+                { wch: 20 },
+                { wch: 40 }
+            ];
+
+            const nomeArquivo = `contatos_hidraulica_${new Date().toLocaleDateString().replace(/\//g, '-')}.xlsx`;
+            XLSX.writeFile(workbook, nomeArquivo);
+            return nomeArquivo;
+        }
+
+        // Função para enviar email com anexo
+        async function enviarEmailComXLS() {
+            try {
+                const dados = JSON.parse(localStorage.getItem('contatos')) || [];
+                
+                if (dados.length === 0) {
+                    console.log('Nenhum dado para enviar!');
+                    return;
+                }
+
+                // Criar XLS em memória
+                const worksheet = XLSX.utils.json_to_sheet(dados);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Contatos');
+                
+                // Converter para base64
+                const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                const blob = new Blob([wbout], { type: 'application/octet-stream' });
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const base64 = e.target.result.split(',')[1];
+                    
+                    // Preparar mensagem de email
+                    const corpoMensagem = `
+Olá,
+
+Segue em anexo o arquivo XLS com os dados capturados do formulário de contato da Hidráulica Pro Brasil.
+
+Informações do relatório:
+- Total de registros: ${dados.length}
+- Data de geração: ${new Date().toLocaleString('pt-BR')}
+- Inclusos: Nome, Email, Telefone, Empresa, Assunto, Mensagem e Data/Hora
+
+Atenciosamente,
+Sistema Hidráulica Pro Brasil
+                    `;
+
+                    // Enviar via EmailJS
+                    emailjs.send('service_default', 'template_default', {
+                        to_email: 'lelioquiroz@gmail.com',
+                        subject: `Relatório de Contatos - Hidráulica Pro Brasil - ${new Date().toLocaleDateString('pt-BR')}`,
+                        message: corpoMensagem,
+                        attachment: base64,
+                        filename: `contatos_hidraulica_${new Date().toLocaleDateString().replace(/\//g, '-')}.xlsx`
+                    }).then((response) => {
+                        console.log('Email enviado com sucesso!', response);
+                    }).catch((error) => {
+                        console.log('Erro ao enviar email:', error);
+                        // Se falhar com EmailJS, usar método alternativo
+                        enviarComMetodoAlternativo(base64);
+                    });
+                };
+                
+                reader.readAsDataURL(blob);
+            } catch (error) {
+                console.error('Erro ao gerar XLS:', error);
+            }
+        }
+
+        // Método alternativo - exibir informações
+        function enviarComMetodoAlternativo(base64) {
+            console.log('Usando método de download local...');
+            const dados = JSON.parse(localStorage.getItem('contatos')) || [];
+            const nomeArquivo = `contatos_hidraulica_${new Date().toLocaleDateString().replace(/\//g, '-')}.xlsx`;
+            
+            // Criar elemento de download
+            const link = document.createElement('a');
+            link.href = 'data:application/octet-stream;base64,' + base64;
+            link.download = nomeArquivo;
+            link.click();
+
+            console.log('Arquivo baixado: ' + nomeArquivo);
+            console.log('Email para envio: lelioquiroz@gmail.com');
+            console.log('Total de registros: ' + dados.length);
+        }
+
+        // Carregar dados ao iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            inicializarDados();
+            carregarDados();
+            
+            // Gerar e enviar XLS automaticamente após 2 segundos
+            setTimeout(() => {
+                console.log('Gerando e enviando relatório automático...');
+                enviarEmailComXLS();
+            }, 2000);
+        });
+
+        // Carrega dados do localStorage ao abrir a página
+        function carregarDados() {
+            const dados = JSON.parse(localStorage.getItem('contatos')) || [];
+            const corpoTabela = document.getElementById('corpo-tabela');
+            const msgVazia = document.getElementById('msg-vazia');
+            
+            corpoTabela.innerHTML = '';
+            
+            if (dados.length === 0) {
+                msgVazia.style.display = 'block';
+            } else {
+                msgVazia.style.display = 'none';
+                dados.forEach((dado, index) => {
+                    const linha = document.createElement('tr');
+                    linha.innerHTML = `
+                        <td>${dado.dataHora}</td>
+                        <td>${dado.nome}</td>
+                        <td>${dado.email}</td>
+                        <td>${dado.telefone}</td>
+                        <td>${dado.empresa}</td>
+                        <td>${dado.assunto}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${dado.mensagem.substring(0, 50)}...</td>
+                        <td><button class="btn-deletar" onclick="deletarRegistro(${index})">Deletar</button></td>
+                    `;
+                    corpoTabela.appendChild(linha);
+                });
+            }
+        }
+
+        // Função para salvar dados
+        function salvarDados(dados) {
+            const registros = JSON.parse(localStorage.getItem('contatos')) || [];
+            registros.push(dados);
+            localStorage.setItem('contatos', JSON.stringify(registros));
+        }
+
+        // Manipular envio do formulário
+        document.getElementById('form-contato').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const dados = {
+                dataHora: new Date().toLocaleString('pt-BR'),
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value,
+                empresa: document.getElementById('empresa').value,
+                assunto: document.getElementById('assunto').value,
+                mensagem: document.getElementById('mensagem').value
+            };
+
+            salvarDados(dados);
+            carregarDados();
+
+            // Mostrar mensagem de sucesso
+            const msgSucesso = document.getElementById('msg-sucesso');
+            msgSucesso.classList.add('mostrar');
+            setTimeout(() => {
+                msgSucesso.classList.remove('mostrar');
+            }, 3000);
+
+            this.reset();
+        });
+
+        // Função para deletar registro
+        function deletarRegistro(index) {
+            if (confirm('Tem certeza que deseja deletar este registro?')) {
+                let registros = JSON.parse(localStorage.getItem('contatos')) || [];
+                registros.splice(index, 1);
+                localStorage.setItem('contatos', JSON.stringify(registros));
+                carregarDados();
+            }
+        }
+    </script>
+</body>
+</html>

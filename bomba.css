@@ -5,6 +5,11 @@
     background-color: #f5f5f5;
     padding: 10px 20px;
     border-bottom: 2px solid #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 .nav-buttons {
@@ -14,22 +19,34 @@
 
 .nav-button {
     text-decoration: none;
-    color: white;
+    color: #0066ff;
     font-size: 16px;
     font-weight: bold;
     padding: 10px 20px;
-    background-color: darkgreen;
+    background-color: #ffffff;
+    border: 2px solid #f7f7f8;
     border-radius: 5px;
     transition: 0.3s;
-    border: none;
+    cursor: pointer;
 }
 
 .nav-button:hover {
-    background-color: #006400;
+    background-color: #0066ff;
+    color: #ffffff;
     transform: scale(1.05);
 }
 
-/* Banner Bombas Hidráulicas - 1/4 da página */
+.nav-button.active {
+    background-color: #0066ff;
+    color: #ffffff;
+}
+
+/* Body com padding para navbar fixed */
+body {
+    margin: 0;
+    padding-top: 70px;
+    font-family: Arial, sans-serif;
+}
 .banner-bombas {
     background-color: darkgreen;
     color: aliceblue;
