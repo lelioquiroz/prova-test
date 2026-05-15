@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bomba.css">
+    <title>Sistema Consulta - Hidráulica Pro Brasil</title>
+    <style>
+        .banner-consulta {
+            background-color: #0066ff;
+            color: white;
+            text-align: left;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 70px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .banner-consulta h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .sair-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .sair-btn:hover {
+            background-color: #c82333;
+        }
+
+        .container-consulta {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .coluna-consulta {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 400px;
+        }
+
+        .consultar-btn {
+            background-color: #0066ff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+
+        .consultar-btn:hover {
+            background-color: #0052cc;
+            transform: scale(1.05);
+        }
+
+        .content-area {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            border-left: 4px solid #0066ff;
+            border-radius: 4px;
+        }
+
+        .info-section h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .info-section p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        footer {
+            background-color: #000;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner-consulta">
+        <h1>Sistema Hidráulica Pro</h1>
+        <button class="sair-btn" onclick="logout()">Sair</button>
+    </div>
+
+    <div class="container-consulta">
+        <div class="coluna-consulta">
+            <button class="consultar-btn" onclick="consultarProduto()">Consultar Produto</button>
+            
+            <div class="content-area" id="resultadoConsulta" style="display: none;">
+                <h3>Resultado da Consulta</h3>
+                <p id="mensagemConsulta"></p>
+            </div>
+
+            <div class="info-section">
+                <h3>Bem-vindo ao Sistema!</h3>
+                <p>Utilize o botão acima para consultar informações sobre nossos produtos.</p>
+                <p><strong>Usuário logado:</strong> <span id="usuarioLogado"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        2026 Hidráulica Pro Brasil - Todos os direitos reservados.
+    </footer>
+
+    <script src="sistema.js"></script>
+</body>
+</html>

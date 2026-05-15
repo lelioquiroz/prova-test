@@ -16,7 +16,7 @@ function marcarPaginaAtiva() {
         document.getElementById('btn-sobre').classList.add('active');
     } else if (paginaAtual === 'contato.html') {
         document.getElementById('btn-contato').classList.add('active');
-    }
+    } 
 }
 
 // Executar ao carregar a página

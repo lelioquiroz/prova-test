@@ -30,6 +30,12 @@
     gap: 10px;
 }
 
+.button {
+    color: #c4baba;
+    background-color: #ff0000;
+    alignment-baseline: central;
+}
+
 .nav-button {
     text-decoration: none;
     color: #0066ff;
@@ -54,6 +60,15 @@
     color: #ffffff;
 }
 
+#btn-login {
+    background-color: #28a745;
+    color: #ffffff;
+}
+
+#btn-login:hover {
+    background-color: #218838;
+}
+
 /* Body com padding para navbar fixed */
 body {
     margin: 0;
@@ -69,6 +84,15 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.banner-consulta {
+    background-color: #0066ff;
+    color: aliceblue;
+    text-align: left;
+    height: 50px;
+    padding: 10px;
+    display: flex;
+    justify-content: left ;
 }
 
 .banner-bombas h2 {
@@ -229,4 +253,92 @@ body {
     font-size: 16px;
     font-weight: bold;
     margin-top: 40px;
+}
+/* Centraliza o box na tela */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  font-family: sans-serif;
+}
+
+/* Container principal do login */
+.login-box {
+  width: 360px;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+}
+
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #333;
+  text-align: center;
+}
+
+/* Grupo de inputs para posicionamento do label */
+.input-group {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #333;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  background: transparent;
+  transition: 0.3s;
+}
+
+/* Label flutuante */
+.input-group label {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  font-size: 16px;
+  color: #999;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+/* Animação do label ao focar ou quando cheio */
+.input-group input:focus ~ label,
+.input-group input:valid ~ label {
+  top: -15px;
+  left: 0;
+  color: #007bff;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Altera a cor da linha ao focar */
+.input-group input:focus {
+  border-bottom: 2px solid #007bff;
+}
+
+/* Botão de envio */
+button {
+  width: 100%;
+  padding: 12px;
+  background: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #0056b3;
 }
